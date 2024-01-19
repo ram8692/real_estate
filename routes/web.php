@@ -57,3 +57,5 @@ Route::get('/galleries/{property_id}', [GalleryController::class, 'index'])->nam
 Route::delete('/galleries/{id}/delete', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 
 Route::get('/messages/{property_id}', [MessagesController::class, 'index'])->name('messages.index');
+Route::get('/messages/{id}/responsd', [MessagesController::class, 'respond'])->name('message.respond');
+Route::post('message/{id}/reply', [MessagesController::class, 'reply'])->name('message.reply');

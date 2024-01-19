@@ -12,8 +12,8 @@ class MessagesController extends Controller
     {
         // Retrieve all messages and their replies
         $messages = Message::with('replies')->where('property_id', $property_id)->whereNull('parent_id')->paginate(10);
-
-        return view('messages.index', compact('messages'));
+//dd($messages);
+        return view('admin.message.index', compact('messages'));
     }
 
     public function store(Request $request)
@@ -32,8 +32,16 @@ class MessagesController extends Controller
         return redirect()->route('messages.index')->with('success', 'Message saved successfully.');
     }
 
+    public function respond($id)
+    { //dd($id);
+        $message = Message::findOrFail($id);
+        
+        return view('admin.message.respond', compact('message'));
+    }
+
     public function reply(Request $request, $parentId)
     {
+       // print_r($request->all());die();
         $validator = MessageValidators::validate('validateReply', $request->all());
 
         if ($validator->fails()) {
@@ -44,17 +52,17 @@ class MessagesController extends Controller
         // Find the parent message
         $parentMessage = Message::findOrFail($parentId);
 
+        $property_id = $request->property_id;
         // Create a new reply
         $reply = new Message([
-            'name' => $request->name,
-            'email' => $request->email,
-            'contact' => $request->contact,
+            'user_id' => 1,
+            'property_id' => $property_id,
             'content' => $request->content,
         ]);
 
         // Associate the reply with the parent message
         $parentMessage->replies()->save($reply);
 
-        return redirect()->route('messages.index')->with('success', 'Reply saved successfully.');
+        return redirect()->route('messages.index', ['property_id' => $property_id])->with('success', 'Reply saved successfully.');
     }
 }

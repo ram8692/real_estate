@@ -85,6 +85,7 @@
                       <td>{{ $property->city }}</td>
                       <td><a href="{{asset('storage/assets/featured_images/'.$property->featured_image)}}" target="_blank">Featured</a></td>
                       <td><a href="{{route('galleries.index', ['property_id' => $property->id]) }}" target="_blank">Gallery</a></td>
+                      <td><a href="{{route('messages.index', ['property_id' => $property->id]) }}" target="_blank">Message</a></td>
                       <td><a href="{{ route('property.edit', ['id' => $property->id]) }}">Edit</a><a href="{{ route('property.destroy', ['id' => $property->id]) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $property->id }}').submit();">Delete</a><form id="delete-form-{{ $property->id }}" action="{{ route('property.destroy', ['id' => $property->id]) }}" method="POST" style="display: none;">
                           @csrf
                           @method('DELETE')

@@ -17,9 +17,6 @@ class MessageValidators extends Validator
         switch ($action) {
             case 'validateReply':
                 return [
-                    'name' => 'required',
-                    'email' => 'required|email',
-                    'contact' => 'required',
                     'content' => 'required',
                 ];
             // Add more cases for other actions
