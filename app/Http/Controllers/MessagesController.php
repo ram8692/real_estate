@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Validators\MessageValidators;
+use Illuminate\Support\Facades\Auth;
+
 
 class MessagesController extends Controller
 {
@@ -16,20 +18,25 @@ class MessagesController extends Controller
         return view('admin.message.index', compact('messages'));
     }
 
-    public function store(Request $request)
+    public function send(Request $request)
     {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'contact' => 'required',
-            'content' => 'required',
+        $validator = MessageValidators::validate('validatesendMessage', $request->all());
+        $property_id = $request->property_id;
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+            return redirect()->route('property.info', ['id' => $property_id])->withErrors($errors)->withInput();
+        }
+
+         Message::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'contact' => $request->contact,
+            'content' => $request->content,
+            'property_id' => $property_id,
+            'user_id' => Auth::user()->id,
         ]);
 
-        // Create a new message
-        $message = Message::create($validatedData);
-
-        return redirect()->route('messages.index')->with('success', 'Message saved successfully.');
+        return redirect()->route('property.info', ['id' => $property_id])->with('success', 'Message sended successfully.');
     }
 
     public function respond($id)
@@ -46,7 +53,7 @@ class MessagesController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors()->toArray();
-            return redirect()->route('property.create')->withErrors($errors)->withInput();
+            return redirect()->route('admin_panel.property.create')->withErrors($errors)->withInput();
         }
         
         // Find the parent message
@@ -63,6 +70,6 @@ class MessagesController extends Controller
         // Associate the reply with the parent message
         $parentMessage->replies()->save($reply);
 
-        return redirect()->route('messages.index', ['property_id' => $property_id])->with('success', 'Reply saved successfully.');
+        return redirect()->route('admin_panel.messages.index', ['property_id' => $property_id])->with('success', 'Reply saved successfully.');
     }
 }

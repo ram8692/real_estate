@@ -6,8 +6,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Validators\AuthValidators;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -19,13 +17,13 @@ class AuthController extends Controller
 
   public function login(Request $request)
   {
- // print_r($request->all());die();
- $validator = AuthValidators::validate('login', $request->all());
+    // print_r($request->all());die();
+    $validator = AuthValidators::validate('login', $request->all());
 
- if ($validator->fails()) {
-     $errors = $validator->errors()->toArray();
-     return redirect()->route('login')->withErrors($errors)->withInput();
- }
+    if ($validator->fails()) {
+      $errors = $validator->errors()->toArray();
+      return redirect()->route('login')->withErrors($errors)->withInput();
+    }
 
     $credentials = $request->only('email', 'password');
 
@@ -54,29 +52,27 @@ class AuthController extends Controller
     $validator = AuthValidators::validate('register', $request->all());
 
     if ($validator->fails()) {
-        $errors = $validator->errors()->toArray();
-        return redirect()->route('register')->withErrors($errors)->withInput();
+      $errors = $validator->errors()->toArray();
+      return redirect()->route('register')->withErrors($errors)->withInput();
     }
 
-      // Handle profile image upload
-      $profileImage = $request->file('profile_image');
-      $profileImageName = null;
-  
-      if ($profileImage) {
-          $uniqueFileName = Str::uuid() . '.' . $profileImage->getClientOriginalExtension();
-          $profileImage->storeAs('assets/profile_images', $uniqueFileName, 'public');
-          $profileImageName = $uniqueFileName;
-          
-      }
+    // Handle profile image upload
+    $profileImage = $request->file('profile_image');
+    $profileImageName = null;
 
+    if ($profileImage) {
+      $uniqueFileName = Str::uuid() . '.' . $profileImage->getClientOriginalExtension();
+      $profileImage->storeAs('assets/profile_images', $uniqueFileName, 'public');
+      $profileImageName = $uniqueFileName;
 
+    }
 
     // Create a new user
     $user = User::create([
       'name' => $request->name,
       'email' => $request->email,
       'password' => bcrypt($request->password),
-      'role_id'=> 2,
+      'role_id' => 2,
       'profile_image' => $profileImageName,
     ]);
 

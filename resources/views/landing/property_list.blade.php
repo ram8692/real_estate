@@ -32,17 +32,30 @@
     <section class="property-grid grid">
       <div class="container">
         <div class="row">
-          <div class="col-sm-12">
-            <div class="grid-option">
-              <form>
-                <select class="custom-select">
-                  <option selected>All</option>
-                  <option value="1">New to Old</option>
-                  <option value="2">For Rent</option>
-                  <option value="3">For Sale</option>
-                </select>
-              </form>
-            </div>
+          <div class="col-sm-12 mb-5">
+          
+            <form action="{{ route('property_list') }}" method="GET" class="form-inline">
+              <div class="form-group mx-2">
+                  <label for="property_name" class="sr-only">Property Name</label>
+                  <input type="text" name="property_name" id="property_name" class="form-control" placeholder="Property Name" value="{{ request('property_name') }}">
+              </div>
+              <div class="form-group mx-2">
+                  <label for="city" class="sr-only">City</label>
+                  <input type="text" name="city" id="city" class="form-control" placeholder="City" value="{{ request('city') }}">
+              </div>
+              <div class="form-group mx-2">
+                  <label for="bedroom" class="sr-only">Bedroom</label>
+                  <input type="number" name="bedroom" id="bedroom" class="form-control" placeholder="Bedroom" value="{{ request('bedroom') }}">
+              </div>
+              <div class="form-group mx-2 mb-3">
+                  <label for="max_price" class="sr-only">Max Price</label>
+                  <input type="number" name="max_price" id="max_price" class="form-control" placeholder="Max Price" value="{{ request('max_price') }}">
+              </div>
+              <button type="submit" class="btn btn-primary mx-2">Apply Filters</button>
+          </form>
+          
+            
+
           </div>
           @foreach ($properties as $property)
           <div class="col-md-4">
@@ -94,29 +107,7 @@
         </div>
         <div class="row">
           <div class="col-sm-12">
-            <nav class="pagination-a">
-              <ul class="pagination justify-content-end">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1">
-                    <span class="bi bi-chevron-left"></span>
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item active">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item next">
-                  <a class="page-link" href="#">
-                    <span class="bi bi-chevron-right"></span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            {{ $properties->appends(request()->query())->links('vendor.pagination.landing-bootstrap-4') }}
           </div>
         </div>
       </div>

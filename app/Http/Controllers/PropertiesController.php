@@ -177,19 +177,44 @@ class PropertiesController extends Controller
         return redirect()->route('property.list')->with('success', 'Property deleted successfully.');
     }
 
-    public function properties_list()
-    {
+    public function properties_list(Request $request)
+{
+    $query = Property::query();
 
-        $properties = Property::get();
-
-        // Pass the properties to the view
-        return view('landing.property_list', compact('properties'));
-
+    // Apply filters
+    if ($request->filled('property_name')) {
+        $query->where('title', 'like', '%' . $request->input('property_name') . '%');
     }
+
+   
+
+    if ($request->filled('city')) {
+        $query->where('city', $request->input('city'));
+    }
+
+   
+
+    if ($request->filled('bedroom')) {
+        $query->where('bedroom', $request->input('bedroom'));
+    }
+
+   
+
+    if ($request->filled('max_price')) {
+        $query->where('price', '<=', $request->input('max_price'));
+    }
+
+    
+    // Paginate the results
+    $properties = $query->paginate(10); // You can adjust the number of items per page as needed
+
+    // Pass the properties and input data to the view
+    return view('landing.property_list', compact('properties'))->with($request->all());
+}
 
     public function property($id) {
         // Retrieve the property with its galleries and messages
-        $property = Property::with('galleries', 'messages')->find($id);
+        $property = Property::with('galleries', 'messages','user')->find($id);
 
         // Pass the property to the view
         return view('landing.property', compact('property'));
