@@ -158,9 +158,18 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">icon</a>
             <div class="dropdown-menu">
-              <a class="dropdown-item " href="{{route('profile')}}">Profile</a>
-              <a class="dropdown-item " href="{{route('login')}}">Login</a>
-              <a class="dropdown-item " href="{{route('register')}}">Register</a>
+              @if(auth()->check()) {{-- Check if the user is logged in --}}
+              <a class="dropdown-item" href="{{ route('profile') }}">Profile</a>
+              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
+          @else
+              <a class="dropdown-item" href="{{ route('login') }}">Login</a>
+              <a class="dropdown-item" href="{{ route('register') }}">Register</a>
+          @endif
             </div>
           </li>
           

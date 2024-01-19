@@ -32,44 +32,67 @@
     <section class="contact">
       <div class="container">
         <div class="row">
+         
+      
+          @if($errors->any())
+          <div class="alert alert-danger" role="alert">
+              <ul>
+                  @foreach($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
           <div class="col-sm-12 section-t8">
             <div class="row">
               <div class="col-md-7 mx-auto d-flex align-items-center">
-                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <div class="form-group">
-                        <input type="text" name="name" class="form-control form-control-lg form-control-a" placeholder="Your Name" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                      <div class="form-group">
-                        <input name="email" type="email" class="form-control form-control-lg form-control-a" placeholder="Your Email" required>
-                      </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                      <div class="form-group">
-                        <input type="text" name="subject" class="form-control form-control-lg form-control-a" placeholder="Subject" required>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <textarea name="message" class="form-control" name="message" cols="45" rows="8" placeholder="Message" required></textarea>
-                      </div>
-                    </div>
-                    <div class="col-md-12 my-3">
-                      <div class="mb-3">
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent. Thank you!</div>
-                      </div>
-                    </div>
 
-                    <div class="col-md-12 text-center">
-                      <button type="submit" class="btn btn-a">Send Message</button>
+               
+                <form action="{{ route('register.post') }}" method="post" enctype="multipart/form-data">
+                  @csrf <!-- Add CSRF token field -->
+              
+                  <div class="row">
+                      <div class="col-md-6 mb-3">
+                          <div class="form-group">
+                              <input type="text" name="name" class="form-control form-control-lg form-control-a" placeholder="Your Name" required value="{{ old('name') }}">
+                          </div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                          <div class="form-group">
+                              <input name="email" type="email" class="form-control form-control-lg form-control-a" placeholder="Your Email" required value="{{ old('email') }}">
+                          </div>
+                      </div>
+                     
+                      <!-- Add a password field -->
+                      <div class="col-md-6 mb-3">
+                          <div class="form-group">
+                              <input name="password" type="password" class="form-control form-control-lg form-control-a" placeholder="Your Password" required>
+                          </div>
+                      </div>
+                      <!-- Add a role dropdown -->
+                      <div class="col-md-6 mb-3">
+                          <div class="form-group">
+                              <select name="role_id" class="form-control form-control-lg form-control-a" required>
+                                  <option value="2" {{ old('role_id') == 2 ? 'selected' : '' }}>Customer</option>
+                                  <!-- Add other role options as needed -->
+                              </select>
+                          </div>
+                      </div>
+              
+                      <div class="col-md-6 mb-3">
+                        <div class="form-group">
+                            <label for="profile_image">Upload Profile Picture</label>
+                            <input type="file" class="form-control form-control-lg form-control-a" name="profile_image" accept="image/*">
+                        </div>
                     </div>
+                   
+              
+                      <div class="col-md-12 text-center">
+                          <button type="submit" class="btn btn-a">Register</button>
+                      </div>
                   </div>
-                </form>
+              </form>
+              
               </div>
               
             </div>

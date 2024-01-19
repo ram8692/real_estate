@@ -32,34 +32,40 @@
     <section class="contact">
       <div class="container">
         <div class="row">
+          @if($errors->any())
+          <div class="alert alert-danger" role="alert">
+              <ul>
+                  @foreach($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
           <div class="col-sm-12 section-t8">
             <div class="row">
               <div class="col-md-7 mx-auto d-flex align-items-center border-2">
-                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            
+                <form action="{{ route('login.post') }}" method="post" role="form">
+                  @csrf <!-- Add CSRF token field -->
+              
                   <div class="row">
-                    <div class="col-md-12 mb-3">
-                      <div class="form-group">
-                        <input type="text" name="subject" class="form-control form-control-lg form-control-a" placeholder="Subject" required>
+                      <div class="col-md-12 mb-3">
+                          <div class="form-group">
+                              <input type="email" name="email" class="form-control form-control-lg form-control-a" placeholder="Email" required value="{{ old('email') }}">
+                          </div>
                       </div>
-                    </div>
-                    <div class="col-md-12 mb-3">
-                      <div class="form-group">
-                        <input type="text" name="subject" class="form-control form-control-lg form-control-a" placeholder="Subject" required>
+                      <div class="col-md-12 mb-3">
+                          <div class="form-group">
+                              <input type="password" name="password" class="form-control form-control-lg form-control-a" placeholder="Password" required>
+                          </div>
                       </div>
-                    </div>
-                    <div class="col-md-12 my-3">
-                      <div class="mb-3">
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent. Thank you!</div>
+              
+                      <div class="col-md-12 text-center">
+                          <button type="submit" class="btn btn-a">Login</button>
                       </div>
-                    </div>
-
-                    <div class="col-md-12 text-center">
-                      <button type="submit" class="btn btn-a">Send Message</button>
-                    </div>
                   </div>
-                </form>
+              </form>
+              
               </div>
               
             </div>

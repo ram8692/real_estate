@@ -9,6 +9,8 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +28,13 @@ use App\Http\Controllers\MessagesController;
 // });
 
 
-Route::get('', [HomeController::class, 'index'])->name('users.index');
+Route::get('', [HomeController::class, 'index'])->name('index');
 Route::get('profile', [UsersController::class, 'profile'])->name('profile');
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register');
+Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::get('properties', [PropertiesController::class, 'properties_list'])->name('property_list');
 Route::get('property', [PropertiesController::class, 'property'])->name('property');
 
