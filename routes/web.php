@@ -8,6 +8,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\MessagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,3 +55,5 @@ Route::get('/galleries/{property_id}', [GalleryController::class, 'index'])->nam
 
 // Delete a gallery
 Route::delete('/galleries/{id}/delete', [GalleryController::class, 'destroy'])->name('gallery.destroy');
+
+Route::get('/messages/{property_id}', [MessagesController::class, 'index'])->name('messages.index');

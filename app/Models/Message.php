@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function replies()
+    {
+        return $this->hasMany(Message::class, 'parent_id');
+    }
 }
