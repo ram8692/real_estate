@@ -33,14 +33,15 @@
         <div class="row">
           <div class="col-sm-12 position-relative">
             <div class="about-img-box">
-              <img src="assets/img/slide-about-1.jpg" alt="" class="img-fluid">
+            
+              <img src="{{asset('storage/assets/profile_images/'.$user->profile_image)}}" alt="" class="img-fluid">
             </div>
             <div class="sinse-box">
-              <h3 class="sinse-title">EstateAgency
+              <h3 class="sinse-title">{{$user->name}}
                 <span></span>
-                <br> Sinse 2017
+                <br>
               </h3>
-              <p>Art & Creative</p>
+              <p>Email: {{$user->email}}</p>
             </div>
           </div>
           <div class="col-md-12 section-t8 position-relative">

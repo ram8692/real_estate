@@ -151,9 +151,7 @@
             <a class="nav-link " href="{{route('property_list')}}">Property</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link " href="{{route('property')}}">single Property</a>
-          </li>
+          
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">icon</a>

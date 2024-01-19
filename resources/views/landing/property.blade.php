@@ -8,8 +8,8 @@
         <div class="row">
           <div class="col-md-12 col-lg-8">
             <div class="title-single-box">
-              <h1 class="title-single">304 Blaster Up</h1>
-              <span class="color-text-a">Chicago, IL 606543</span>
+              <h1 class="title-single">{{$property->title}}</h1>
+              <span class="color-text-a">{{$property->city}}</span>
             </div>
           </div>
           <div class="col-md-12 col-lg-4">
@@ -39,11 +39,14 @@
             <div id="property-single-carousel" class="swiper">
               <div class="swiper-wrapper">
                 <div class="carousel-item-b swiper-slide">
-                  <img src="assets/img/slide-1.jpg" alt="">
+                  <img src="{{asset('storage/assets/featured_images/'.$property->featured_image)}}" alt="Featured Image">
                 </div>
+                @foreach ($property->galleries as $gallery)
                 <div class="carousel-item-b swiper-slide">
-                  <img src="assets/img/slide-2.jpg" alt="">
-                </div>
+    <img src="{{ asset('storage/assets/gallery_images/'.$gallery->image_path) }}" alt="Gallery Image">
+  </div>
+    @endforeach
+
               </div>
             </div>
             <div class="property-single-carousel-pagination carousel-pagination"></div>
@@ -77,37 +80,33 @@
                     <ul class="list">
                       <li class="d-flex justify-content-between">
                         <strong>Property ID:</strong>
-                        <span>1134</span>
+                        <span>{{$property->id}}</span>
                       </li>
                       <li class="d-flex justify-content-between">
                         <strong>Location:</strong>
-                        <span>Chicago, IL 606543</span>
+                        <span>{{$property->city}}</span>
                       </li>
                       <li class="d-flex justify-content-between">
-                        <strong>Property Type:</strong>
-                        <span>House</span>
+                        <strong>Floor Area:</strong>
+                        <span>{{$property->floor_area}}</span>
                       </li>
                       <li class="d-flex justify-content-between">
-                        <strong>Status:</strong>
-                        <span>Sale</span>
+                        <strong>Bedroom:</strong>
+                        <span>{{$property->bedroom}}</span>
                       </li>
                       <li class="d-flex justify-content-between">
-                        <strong>Area:</strong>
-                        <span>340m
-                          <sup>2</sup>
+                        <strong>Bathroom:</strong>
+                        <span>{{$property->bathroom}}
                         </span>
                       </li>
                       <li class="d-flex justify-content-between">
-                        <strong>Beds:</strong>
-                        <span>4</span>
+                        <strong>Near By Place:</strong>
+                        <span>{{$property->nearby_place}}</span>
                       </li>
+                     
                       <li class="d-flex justify-content-between">
-                        <strong>Baths:</strong>
-                        <span>2</span>
-                      </li>
-                      <li class="d-flex justify-content-between">
-                        <strong>Garage:</strong>
-                        <span>1</span>
+                        <strong>Address:</strong>
+                        <span>{{$property->address}}</span>
                       </li>
                     </ul>
                   </div>
@@ -123,17 +122,9 @@
                 </div>
                 <div class="property-description">
                   <p class="description color-text-a">
-                    Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit
-                    neque, auctor sit amet
-                    aliquam vel, ullamcorper sit amet ligula. Cras ultricies ligula sed magna dictum porta.
-                    Curabitur aliquet quam id dui posuere blandit. Mauris blandit aliquet elit, eget tincidunt
-                    nibh pulvinar quam id dui posuere blandit.
+                   {{$property->description}}
                   </p>
-                  <p class="description color-text-a no-margin">
-                    Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Donec rutrum congue leo eget
-                    malesuada. Quisque velit nisi,
-                    pretium ut lacinia in, elementum id enim. Donec sollicitudin molestie malesuada.
-                  </p>
+               
                 </div>
                 <div class="row section-t3">
                   <div class="col-sm-12">

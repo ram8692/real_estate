@@ -36,7 +36,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 Route::get('properties', [PropertiesController::class, 'properties_list'])->name('property_list');
-Route::get('property', [PropertiesController::class, 'property'])->name('property');
+Route::get('/property/{id}/info', [PropertiesController::class, 'property'])->name('property.info');
 
 Route::get('admin_panel', [AdminController::class, 'index'])->name('admin.index');
 Route::get('property/list', [PropertiesController::class, 'index'])->name('property.list');

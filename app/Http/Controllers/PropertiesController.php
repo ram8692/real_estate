@@ -177,11 +177,21 @@ class PropertiesController extends Controller
         return redirect()->route('property.list')->with('success', 'Property deleted successfully.');
     }
 
-    public function properties_list(){
-        return view("landing.property_list");
+    public function properties_list()
+    {
+
+        $properties = Property::get();
+
+        // Pass the properties to the view
+        return view('landing.property_list', compact('properties'));
+
     }
 
-    public function property(){
-        return view("landing.property");
+    public function property($id) {
+        // Retrieve the property with its galleries and messages
+        $property = Property::with('galleries', 'messages')->find($id);
+
+        // Pass the property to the view
+        return view('landing.property', compact('property'));
     }
 }

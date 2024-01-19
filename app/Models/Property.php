@@ -16,4 +16,9 @@ class Property extends Model
         return $this->hasMany(Gallery::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
 }
