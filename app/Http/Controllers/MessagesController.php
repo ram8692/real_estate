@@ -53,7 +53,7 @@ class MessagesController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors()->toArray();
-            return redirect()->route('admin_panel.property.create')->withErrors($errors)->withInput();
+            return redirect()->route('property.create')->withErrors($errors)->withInput();
         }
         
         // Find the parent message
@@ -70,6 +70,6 @@ class MessagesController extends Controller
         // Associate the reply with the parent message
         $parentMessage->replies()->save($reply);
 
-        return redirect()->route('admin_panel.messages.index', ['property_id' => $property_id])->with('success', 'Reply saved successfully.');
+        return redirect()->route('messages.index', ['property_id' => $property_id])->with('success', 'Reply saved successfully.');
     }
 }

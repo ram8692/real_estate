@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
-
-
 class PropertiesController extends Controller
 {
     public function index(Request $request)
@@ -20,7 +18,7 @@ class PropertiesController extends Controller
 
         // Apply filters as needed
 
-        if ($request->filled('email')) {
+        if ($request->filled('city')) {
             $query->where('city', $request->input('city'));
         }
 

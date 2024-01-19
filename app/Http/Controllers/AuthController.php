@@ -17,7 +17,7 @@ class AuthController extends Controller
 
   public function login(Request $request)
   {
-    // print_r($request->all());die();
+
     $validator = AuthValidators::validate('login', $request->all());
 
     if ($validator->fails()) {

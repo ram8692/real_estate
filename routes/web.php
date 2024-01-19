@@ -64,7 +64,7 @@ Route::middleware(['role:1'])->prefix('admin_panel')->group(function () {
     Route::get('/messages/{property_id}', [MessagesController::class, 'index'])->name('messages.index');
     
     // Show form for message to respond
-    Route::get('/messages/{id}/responsd', [MessagesController::class, 'respond'])->name('message.respond');
+    Route::get('/messages/{id}/respond', [MessagesController::class, 'respond'])->name('message.respond');
     
     // Reply to a message
     Route::post('message/{id}/reply', [MessagesController::class, 'reply'])->name('message.reply');

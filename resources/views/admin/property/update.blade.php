@@ -7,12 +7,13 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Validation</h1>
+                <h1>Update Property</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active">Validation</li>
+                  <li class="breadcrumb-item active">Property</li>
+                  <li class="breadcrumb-item active">Property Update</li>
                 </ol>
               </div>
             </div>
@@ -27,9 +28,7 @@
               <div class="col-md-12">
                 <!-- jquery validation -->
                 <div class="card card-primary">
-                  <div class="card-header">
-                    <h3 class="card-title">Quick Example <small>jQuery Validation</small></h3>
-                  </div>
+                 
                   <!-- /.card-header -->
                   <!-- form start -->
                   <form id="quickForm" method="POST" action="{{ route('property.update', ['id' => $property->id]) }}" enctype="multipart/form-data">
