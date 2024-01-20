@@ -63,7 +63,7 @@
                                             <div class="form-group">
                                                 <input type="password" name="password"
                                                     class="form-control form-control-lg form-control-a"
-                                                    placeholder="Password" required>
+                                                    placeholder="Password" minlength="8" required>
                                             </div>
                                         </div>
 

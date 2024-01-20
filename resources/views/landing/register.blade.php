@@ -74,7 +74,7 @@
                                             <div class="form-group">
                                                 <input name="password" type="password"
                                                     class="form-control form-control-lg form-control-a"
-                                                    placeholder="Your Password" required>
+                                                    placeholder="Your Password" minlength="8" required>
                                             </div>
                                         </div>
                                         <!-- Add a role dropdown -->

@@ -30,6 +30,8 @@ use App\Http\Controllers\AuthController;
 //for landing page
 Route::get('', [HomeController::class, 'index'])->name('index');
 
+Route::middleware('guest')->group(function () {
+
 //show form of login page
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 
@@ -41,6 +43,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 //for register
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
+});
 
 //for properties list page
 Route::get('properties', [PropertiesController::class, 'propertiesList'])->name('property_list');
