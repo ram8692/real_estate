@@ -13,7 +13,7 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{route('admin.index')}}">Home</a></li>
                             <li class="breadcrumb-item"><a href="{{route('property.list')}}">Property</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('message.respond')}}">Message</a></li>
+                            <li class="breadcrumb-item"><a href="{{route('messages.index', ['property_id' => $message->property_id])}}">Message</a></li>
                             <li class="breadcrumb-item active">Message Respond</li>
                         </ol>
                     </div>
@@ -31,12 +31,16 @@
                         <div class="card card-primary">
                             <div class="card-header">
                                 <h3 class="card-title">Respond</h3>
-                                @if (session('error'))
-                                <div class="alert alert-danger" role="alert">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
                             </div>
+                            @if ($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                             <!-- /.card-header -->
                             <!-- form start -->
                             <form id="quickForm" method="POST"
@@ -49,7 +53,7 @@
                                             <!-- textarea -->
                                             <div class="form-group">
                                                 <label>Content</label>
-                                                <textarea class="form-control" rows="3" name="content" placeholder="Enter Content">{{ old('content') }}</textarea>
+                                                <textarea class="form-control" rows="3" name="content" placeholder="Enter Content" required>{{ old('content') }}</textarea>
                                             </div>
                                         </div>
 

@@ -58,7 +58,7 @@ class MessagesController extends Controller
      * @return \Illuminate\View\View
      */
     public function respond($id)
-    {
+    {  
         $message = Message::findOrFail($id);
 
         return view('admin.message.respond', compact('message'));
@@ -77,7 +77,7 @@ class MessagesController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors()->toArray();
-            return redirect()->route('property.create')->withErrors($errors)->withInput();
+            return redirect()->route('message.respond',['id'=>$parentId])->withErrors($errors)->withInput();
         }
 
         // Find the parent message

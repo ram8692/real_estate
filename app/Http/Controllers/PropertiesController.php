@@ -32,6 +32,8 @@ class PropertiesController extends Controller
             $query->where('floor_area', $request->input('noffloor'));
         }
 
+        $query->where('created_by', auth()->id());
+
         $query->orderBy('created_at', 'desc');
 
         $properties = $query->paginate(4); // You can adjust the number of items per page
