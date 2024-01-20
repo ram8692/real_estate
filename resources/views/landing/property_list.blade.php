@@ -9,17 +9,18 @@
                     <div class="col-md-12 col-lg-8">
                         <div class="title-single-box">
                             <h1 class="title-single">Our Amazing Properties</h1>
-                            <span class="color-text-a">Grid Properties</span>
+                            <span class="color-text-a">Properties</span>
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-4">
                         <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="#">Home</a>
+                                   
+                                  <a href="{{route('index')}}">Home</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    Properties Grid
+                                    Properties
                                 </li>
                             </ol>
                         </nav>
@@ -35,31 +36,31 @@
                     <div class="col-sm-12 mb-5">
 
                         <form action="{{ route('property_list') }}" method="GET" class="form-inline">
-                            <div class="form-group mx-2">
-                                <label for="property_name" class="sr-only">Property Name</label>
-                                <input type="text" name="property_name" id="property_name" class="form-control"
-                                    placeholder="Property Name" value="{{ request('property_name') }}">
+                            <div class="row">
+                                <div class="col-md-2 mx-2">
+                                    
+                                    <input type="text" name="property_name" id="property_name" class="form-control"
+                                        placeholder="Property Name" value="{{ request('property_name') }}">
+                                </div>
+                                <div class="col-md-2 mx-2">
+                                    <input type="text" name="city" id="city" class="form-control"
+                                        placeholder="City" value="{{ request('city') }}">
+                                </div>
+                                <div class="col-md-2 mx-2">
+                                    
+                                    <input type="number" name="bedroom" id="bedroom" class="form-control"
+                                        placeholder="Bedroom" value="{{ request('bedroom') }}">
+                                </div>
+                                <div class="col-md-2 mx-2 mb-3">
+                                 
+                                    <input type="number" name="max_price" id="max_price" class="form-control"
+                                        placeholder="Max Price" value="{{ request('max_price') }}">
+                                </div>
+                                <div class="col-md-3 mx-2 mb-3">
+                                    <button type="submit" class="btn btn-primary mx-2">Apply Filters</button>
+                                </div>
                             </div>
-                            <div class="form-group mx-2">
-                                <label for="city" class="sr-only">City</label>
-                                <input type="text" name="city" id="city" class="form-control" placeholder="City"
-                                    value="{{ request('city') }}">
-                            </div>
-                            <div class="form-group mx-2">
-                                <label for="bedroom" class="sr-only">Bedroom</label>
-                                <input type="number" name="bedroom" id="bedroom" class="form-control"
-                                    placeholder="Bedroom" value="{{ request('bedroom') }}">
-                            </div>
-                            <div class="form-group mx-2 mb-3">
-                                <label for="max_price" class="sr-only">Max Price</label>
-                                <input type="number" name="max_price" id="max_price" class="form-control"
-                                    placeholder="Max Price" value="{{ request('max_price') }}">
-                            </div>
-                            <button type="submit" class="btn btn-primary mx-2">Apply Filters</button>
                         </form>
-
-
-
                     </div>
                     @foreach ($properties as $property)
                         <div class="col-md-4">
@@ -83,7 +84,7 @@
                                             <a href="{{ route('property.info', ['id' => $property->id]) }}
                       "
                                                 class="link-a">Click here to view
-                                                <span class="bi bi-chevron-right"></span>
+                                                <span class="bi bi-chevron-right">{{ $property->city }}</span>
                                             </a>
                                         </div>
                                         <div class="card-footer-a">

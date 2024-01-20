@@ -16,7 +16,7 @@ class GalleryController extends Controller
     public function index($property_id)
     {
         // Get galleries for a specific property with pagination
-        $galleries = Gallery::where('property_id', $property_id)->paginate(PAGINATED_PER_PAGE);
+        $galleries = Gallery::where('property_id', $property_id)->paginate(10);
 
         return view('admin.gallery.index', compact('galleries'));
     }

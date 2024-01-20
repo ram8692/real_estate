@@ -180,11 +180,11 @@
 
                 </ul>
             </div>
-
+{{-- 
             <button type="button" class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse"
                 data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
                 <i class="bi bi-search"></i>
-            </button>
+            </button> --}}
 
         </div>
     </nav><!-- End Header/Navbar -->

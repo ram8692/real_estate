@@ -45,7 +45,7 @@ class PropertiesController extends Controller
 
     public function create()
     {
-        return view('admin.property.create');
+        return view('admin.property.add');
     }
 
     public function store(Request $request)
@@ -105,7 +105,7 @@ class PropertiesController extends Controller
             // Commit the transaction
             DB::commit();
 
-            return redirect()->route('property.index')->with('success', 'Property added successfully.');
+            return redirect()->route('property.list')->with('success', 'Property added successfully.');
         } catch (\Exception $e) {
             // Rollback the transaction in case of an error
             DB::rollback();
@@ -179,7 +179,7 @@ class PropertiesController extends Controller
             // Commit the transaction
             DB::commit();
 
-            return redirect()->route('property.index')->with('success', 'Property updated successfully.');
+            return redirect()->route('property.list')->with('success', 'Property updated successfully.');
         } catch (\Exception $e) {
             // Rollback the transaction in case of an error
             DB::rollback();
@@ -195,18 +195,42 @@ class PropertiesController extends Controller
 
             $property = Property::findOrFail($id);
 
-            // Delete associated galleries
-            $property->galleries()->delete();
+            // Keep track of file paths to delete
+            $filesToDelete = [];
+            $featuredImagePath = $property->featured_image ? 'assets/featured_images/' . $property->featured_image :  null;
+
+            // Delete associated galleries and note their files for deletion
+            $galleries = $property->galleries;
+
+            foreach ($galleries as $gallery) {
+                // Note the file path for deletion
+                $filesToDelete[] = 'assets/gallery_images/' . $gallery->image_path; // Adjust this according to your actual column name
+
+                // Delete the gallery
+                $gallery->delete();
+            }
+
+            $property->messages()->delete();
             $property->delete();
+           
 
             // Commit the transaction
             DB::commit();
 
-            return redirect()->route('property.index')->with('success', 'Property deleted successfully.');
+            // Delete associated files outside the database transaction
+            foreach ($filesToDelete as $filePath) {
+                if ($filePath) {
+                    $this->deleteFile($filePath);
+                }
+            }
+
+            $this->deleteFile($featuredImagePath);
+
+            return redirect()->route('property.list')->with('success', 'Property deleted successfully.');
         } catch (\Exception $e) {
             // Rollback the transaction in case of an error
             DB::rollback();
-            return redirect()->route('property.index')->withErrors(['error' => 'An error occurred. Please try again.']);
+            return redirect()->route('property.list')->withErrors(['error' => 'An error occurred. Please try again.']);
         }
     }
 
@@ -246,4 +270,14 @@ class PropertiesController extends Controller
         // Pass the property to the view
         return view('landing.property', compact('property'));
     }
+
+    function deleteFile($filePath)
+    {
+        //check is not null and not empty
+        if (!empty($filePath)) {
+            // Delete the file from storage
+            Storage::disk('public')->delete($filePath);
+        }
+    }
+
 }

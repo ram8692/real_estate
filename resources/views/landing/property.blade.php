@@ -16,13 +16,13 @@
                         <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="index.html">Home</a>
+                                    <a href="{{route('index')}}">Home</a>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <a href="property-grid.html">Properties</a>
+                                    <a href="{{route('property_list')}}">Properties</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
-                                    304 Blaster Up
+                                    property
                                 </li>
                             </ol>
                         </nav>
@@ -66,7 +66,7 @@
                                             <span class="bi bi-cash">$</span>
                                         </div>
                                         <div class="card-title-c align-self-center">
-                                            <h5 class="title-c">15000</h5>
+                                            <h5 class="title-c">{{$property->price}}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -151,39 +151,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1">
-                        <ul class="nav nav-pills-a nav-pills mb-3 section-t3" id="pills-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="pills-video-tab" data-bs-toggle="pill" href="#pills-video"
-                                    role="tab" aria-controls="pills-video" aria-selected="true">Video</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-plans-tab" data-bs-toggle="pill" href="#pills-plans"
-                                    role="tab" aria-controls="pills-plans" aria-selected="false">Floor Plans</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-map-tab" data-bs-toggle="pill" href="#pills-map"
-                                    role="tab" aria-controls="pills-map" aria-selected="false">Ubication</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-video" role="tabpanel"
-                                aria-labelledby="pills-video-tab">
-                                <iframe src="https://player.vimeo.com/video/73221098" width="100%" height="460"
-                                    frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                            </div>
-                            <div class="tab-pane fade" id="pills-plans" role="tabpanel"
-                                aria-labelledby="pills-plans-tab">
-                                <img src="assets/img/plan2.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="tab-pane fade" id="pills-map" role="tabpanel" aria-labelledby="pills-map-tab">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes+Square!5e0!3m2!1ses-419!2sve!4v1510329142834"
-                                    width="100%" height="460" frameborder="0" style="border:0"
-                                    allowfullscreen></iframe>
-                            </div>
-                        </div>
-                    </div>
+                   
                     <div class="col-md-12">
                         <div class="row section-t3">
                             <div class="col-sm-12">
@@ -211,8 +179,6 @@
                                             <strong>Email:</strong>
                                             <span class="color-text-a">{{ $property->user->email }}</span>
                                         </li>
-
-
                                     </ul>
                                     <div class="socials-a">
                                         <ul class="list-inline">
@@ -240,6 +206,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(auth()->check())
                             <div class="col-md-12 col-lg-4">
                                 <div class="property-contact">
                                     <!-- Check for success message -->
@@ -295,25 +262,22 @@
                                     </form>
                                 </div>
                             </div>
+                            @endif
                             <div>
-                                <table class="table table-none">
-
-                                    <tbody>
-                                        @foreach ($property->messages->where('parent_id', null) as $message)
-                                            <tr>
-                                                <td>{{ $message->content }}</td>
-                                            </tr>
-                                            @if ($message->replies->count() > 0)
-                                                @foreach ($message->replies as $reply)
-                                                    <tr>
-                                                        <td>-</td> <!-- Leave the first column empty for indentation -->
-                                                        <td colspan="4">{{ $reply->content }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div class="container chat-container">
+                                    @foreach ($property->messages->where('parent_id', null) as $message)
+                                        <div class="message bg-success text-white">
+                                            {{ $message->content }}
+                                        </div>
+                                        @if ($message->replies->count() > 0)
+                                            @foreach ($message->replies as $reply)
+                                                <div class="reply bg-sucess">
+                                                    {{ $reply->content }}
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -88,11 +88,11 @@
                                                 <td>{{ $property->bedroom }}</td>
                                                 <td>{{ $property->city }}</td>
                                                 <td><a href="{{ asset('storage/assets/featured_images/' . $property->featured_image) }}"
-                                                        target="_blank">Featured</a></td>
+                                                        target="_blank"><i class=" 	far fa-image"></i></a></td>
                                                 <td><a href="{{ route('galleries.index', ['property_id' => $property->id]) }}"
-                                                        target="_blank">Gallery</a></td>
+                                                        target="_blank"><i class='fas fa-images'></i></a></td>
                                                 <td><a href="{{ route('messages.index', ['property_id' => $property->id]) }}"
-                                                        target="_blank">Message</a></td>
+                                                        target="_blank"><i class='far fa-envelope-open'></i></a></td>
                                                 <td><a
                                                         href="{{ route('property.edit', ['id' => $property->id]) }}">Edit</a><a
                                                         href="{{ route('property.destroy', ['id' => $property->id]) }}"
