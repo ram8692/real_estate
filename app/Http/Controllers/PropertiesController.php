@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class PropertiesController extends Controller
 {
     public function index(Request $request)
-    {   
+    {
         $query = Property::query();
 
         // Apply filters as needed
@@ -33,8 +33,8 @@ class PropertiesController extends Controller
         $query->orderBy('created_at', 'desc');
 
         $properties = $query->paginate(4); // You can adjust the number of items per page
-  
-       // dd($properties);
+
+        // dd($properties);
         return view('admin.property.index', compact('properties'));
     }
 
@@ -48,7 +48,7 @@ class PropertiesController extends Controller
     public function create()
     {
         $roles = Property::all();
-        return view('admin.property.add',compact('roles'));
+        return view('admin.property.add', compact('roles'));
     }
 
 
@@ -66,7 +66,7 @@ class PropertiesController extends Controller
             $featuredImage = $request->file('featured');
             $uniqueFileName = Str::uuid() . '.' . $featuredImage->getClientOriginalExtension();
             $featuredImage->storeAs('assets/featured_images', $uniqueFileName, 'public'); // Adjust the storage path as needed
-            $uniqueDFeaturedFileName =  $uniqueFileName;
+            $uniqueDFeaturedFileName = $uniqueFileName;
         }
 
         $property = Property::create([
@@ -87,15 +87,15 @@ class PropertiesController extends Controller
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $galleryImage) {
                 $uniqueFileName = Str::uuid() . '.' . $galleryImage->getClientOriginalExtension();
-        
+
                 $path = $galleryImage->storeAs('assets/gallery_images', $uniqueFileName, 'public'); // Adjust the storage path as needed
-        
+
                 // Store data in the gallery table
                 $gallery = Gallery::create([
                     'property_id' => $property->id, // Assuming there is a 'property_id' column in the gallery table
                     'image_path' => $uniqueFileName, // Assuming there is an 'image_name' column in the gallery table
                 ]);
-        
+
                 $galleryImages[] = $gallery;
             }
         }
@@ -107,7 +107,7 @@ class PropertiesController extends Controller
     public function edit($id)
     { //dd($id);
         $property = Property::findOrFail($id);
-        
+
         return view('admin.property.update', compact('property'));
     }
 
@@ -176,43 +176,44 @@ class PropertiesController extends Controller
     }
 
     public function properties_list(Request $request)
-{
-    $query = Property::query();
+    {
+        $query = Property::query();
 
-    // Apply filters
-    if ($request->filled('property_name')) {
-        $query->where('title', 'like', '%' . $request->input('property_name') . '%');
+        // Apply filters
+        if ($request->filled('property_name')) {
+            $query->where('title', 'like', '%' . $request->input('property_name') . '%');
+        }
+
+
+
+        if ($request->filled('city')) {
+            $query->where('city', $request->input('city'));
+        }
+
+
+
+        if ($request->filled('bedroom')) {
+            $query->where('bedroom', $request->input('bedroom'));
+        }
+
+
+
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->input('max_price'));
+        }
+
+
+        // Paginate the results
+        $properties = $query->paginate(10); // You can adjust the number of items per page as needed
+
+        // Pass the properties and input data to the view
+        return view('landing.property_list', compact('properties'))->with($request->all());
     }
 
-   
-
-    if ($request->filled('city')) {
-        $query->where('city', $request->input('city'));
-    }
-
-   
-
-    if ($request->filled('bedroom')) {
-        $query->where('bedroom', $request->input('bedroom'));
-    }
-
-   
-
-    if ($request->filled('max_price')) {
-        $query->where('price', '<=', $request->input('max_price'));
-    }
-
-    
-    // Paginate the results
-    $properties = $query->paginate(10); // You can adjust the number of items per page as needed
-
-    // Pass the properties and input data to the view
-    return view('landing.property_list', compact('properties'))->with($request->all());
-}
-
-    public function property($id) {
+    public function property($id)
+    {
         // Retrieve the property with its galleries and messages
-        $property = Property::with('galleries', 'messages','user')->find($id);
+        $property = Property::with('galleries', 'messages', 'user')->find($id);
 
         // Pass the property to the view
         return view('landing.property', compact('property'));

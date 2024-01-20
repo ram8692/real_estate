@@ -62,19 +62,19 @@ Route::middleware(['role:1'])->prefix('admin_panel')->group(function () {
 
     // Show form to edit an existing property
     Route::get('/messages/{property_id}', [MessagesController::class, 'index'])->name('messages.index');
-    
+
     // Show form for message to respond
     Route::get('/messages/{id}/respond', [MessagesController::class, 'respond'])->name('message.respond');
-    
+
     // Reply to a message
     Route::post('message/{id}/reply', [MessagesController::class, 'reply'])->name('message.reply');
-    
+
     //for admin dashboard
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-    
+
     //Show list of properties
     Route::get('property/list', [PropertiesController::class, 'index'])->name('property.list');
-    
+
     // Show form to create a new property
     Route::get('property/create', [PropertiesController::class, 'create'])->name('property.create');
 
@@ -94,10 +94,10 @@ Route::middleware(['role:1'])->prefix('admin_panel')->group(function () {
 
 //ROUTES FOR CUSTOMER
 Route::middleware(['role:2'])->group(function () {
-    
+
     //profile page of user
     Route::get('profile', [UsersController::class, 'profile'])->name('profile');
-     
+
     //for Sending Messages
     Route::post('message/send', [MessagesController::class, 'send'])->name('message.send');
 });
