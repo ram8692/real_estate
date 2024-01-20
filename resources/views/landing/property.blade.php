@@ -296,24 +296,24 @@
                                 </div>
                             </div>
                             <div>
-                              <table class="table table-none">
-                                
-                                <tbody>
-                                  @foreach($property->messages->where('parent_id', null) as $message)
-                                      <tr>
-                                          <td>{{ $message->content }}</td>
-                                      </tr>
-                                      @if ($message->replies->count() > 0)
-                                          @foreach ($message->replies as $reply)
-                                              <tr>
-                                                  <td>-</td> <!-- Leave the first column empty for indentation -->
-                                                  <td colspan="4">{{ $reply->content }}</td>
-                                              </tr>
-                                          @endforeach
-                                      @endif
-                                  @endforeach
-                              </tbody>
-                              </table>
+                                <table class="table table-none">
+
+                                    <tbody>
+                                        @foreach ($property->messages->where('parent_id', null) as $message)
+                                            <tr>
+                                                <td>{{ $message->content }}</td>
+                                            </tr>
+                                            @if ($message->replies->count() > 0)
+                                                @foreach ($message->replies as $reply)
+                                                    <tr>
+                                                        <td>-</td> <!-- Leave the first column empty for indentation -->
+                                                        <td colspan="4">{{ $reply->content }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

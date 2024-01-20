@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Validators;
 
 use Illuminate\Support\Facades\Validator;
@@ -19,13 +19,13 @@ class MessageValidators extends Validator
                 return [
                     'content' => 'required',
                 ];
-                case 'validatesendMessage':
-                    return [
-                        'name' => 'required:string',
-                        'email' => 'required|email',
-                        'contact' => 'required|numeric',
-                        'content' => 'required|string',
-                    ];
+            case 'validatesendMessage':
+                return [
+                    'name' => 'required:string',
+                    'email' => 'required|email',
+                    'contact' => 'required|numeric',
+                    'content' => 'required|string',
+                ];
             // Add more cases for other actions
             default:
                 return [];

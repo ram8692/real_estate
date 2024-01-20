@@ -17,7 +17,7 @@ class GalleryController extends Controller
 
     public function destroy($gallery_id)
     {
-    
+
         // Find the gallery by ID and delete it
         $gallery = Gallery::findOrFail($gallery_id);
         $gallery->delete();

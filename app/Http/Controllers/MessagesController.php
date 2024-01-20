@@ -14,7 +14,7 @@ class MessagesController extends Controller
     {
         // Retrieve all messages and their replies
         $messages = Message::with('replies')->where('property_id', $property_id)->whereNull('parent_id')->paginate(10);
-//dd($messages);
+        //dd($messages);
         return view('admin.message.index', compact('messages'));
     }
 
@@ -27,7 +27,7 @@ class MessagesController extends Controller
             return redirect()->route('property.info', ['id' => $property_id])->withErrors($errors)->withInput();
         }
 
-         Message::create([
+        Message::create([
             'name' => $request->name,
             'email' => $request->email,
             'contact' => $request->contact,
@@ -42,20 +42,20 @@ class MessagesController extends Controller
     public function respond($id)
     { //dd($id);
         $message = Message::findOrFail($id);
-        
+
         return view('admin.message.respond', compact('message'));
     }
 
     public function reply(Request $request, $parentId)
     {
-       // print_r($request->all());die();
+        // print_r($request->all());die();
         $validator = MessageValidators::validate('validateReply', $request->all());
 
         if ($validator->fails()) {
             $errors = $validator->errors()->toArray();
             return redirect()->route('property.create')->withErrors($errors)->withInput();
         }
-        
+
         // Find the parent message
         $parentMessage = Message::findOrFail($parentId);
 
