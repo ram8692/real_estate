@@ -9,9 +9,11 @@ use App\Validators\PropertyValidators;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Traits\FileTrait;
 
 class PropertiesController extends Controller
 {
+    use FileTrait;
     public function index(Request $request)
     {
         $query = Property::query();
@@ -269,15 +271,6 @@ class PropertiesController extends Controller
 
         // Pass the property to the view
         return view('landing.property', compact('property'));
-    }
-
-    function deleteFile($filePath)
-    {
-        //check is not null and not empty
-        if (!empty($filePath)) {
-            // Delete the file from storage
-            Storage::disk('public')->delete($filePath);
-        }
     }
 
 }

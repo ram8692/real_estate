@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Gallery;
+use App\Traits\FileTrait;
 
 class GalleryController extends Controller
 {
+    use FileTrait;
+
     /**
      * Display a listing of galleries for a specific property.
      *
@@ -32,8 +35,11 @@ class GalleryController extends Controller
         // Find the gallery by ID
         $gallery = Gallery::findOrFail($gallery_id);
 
+        $galleryImagePath = $gallery->image_path ? 'assets/gallery_images/' . $gallery->image_path :  null;
         // Delete the gallery
         $gallery->delete();
+
+       $this->deleteFile($galleryImagePath);
 
         return redirect()->back()->with('success', 'Gallery deleted successfully.');
     }
