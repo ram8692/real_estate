@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Property;
 use App\Models\Gallery;
 use App\Validators\PropertyValidators;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PropertiesController extends Controller
 {
@@ -34,148 +34,183 @@ class PropertiesController extends Controller
 
         $properties = $query->paginate(4); // You can adjust the number of items per page
 
-        // dd($properties);
         return view('admin.property.index', compact('properties'));
     }
 
-
     public function show($id)
     {
-        $user = Property::findOrFail($id);
-        return view('admin.users.show', compact('user'));
+        $property = Property::findOrFail($id);
+        return view('admin.property.show', compact('property'));
     }
 
     public function create()
     {
-        $roles = Property::all();
-        return view('admin.property.add', compact('roles'));
+        return view('admin.property.create');
     }
-
 
     public function store(Request $request)
     {
-        $validator = PropertyValidators::validate('storeProperty', $request->all());
+        try {
+            // Validation
+            $validator = PropertyValidators::validate('storeProperty', $request->all());
 
-        if ($validator->fails()) {
-            $errors = $validator->errors()->toArray();
-            return redirect()->route('property.create')->withErrors($errors)->withInput();
-        }
-
-        $uniqueDFeaturedFileName = null;
-        if ($request->hasFile('featured')) {
-            $featuredImage = $request->file('featured');
-            $uniqueFileName = Str::uuid() . '.' . $featuredImage->getClientOriginalExtension();
-            $featuredImage->storeAs('assets/featured_images', $uniqueFileName, 'public'); // Adjust the storage path as needed
-            $uniqueDFeaturedFileName = $uniqueFileName;
-        }
-
-        $property = Property::create([
-            'title' => $request->title,
-            'price' => $request->price,
-            'floor_area' => $request->floor_area,
-            'bedroom' => $request->bedroom,
-            'bathroom' => $request->bathroom,
-            'city' => $request->city,
-            'address' => $request->address,
-            'description' => $request->description,
-            'nearby_place' => $request->nearby_place,
-            'featured_image' => $uniqueDFeaturedFileName,
-            'created_by' => 1
-        ]);
-
-        $galleryImages = [];
-        if ($request->hasFile('gallery')) {
-            foreach ($request->file('gallery') as $galleryImage) {
-                $uniqueFileName = Str::uuid() . '.' . $galleryImage->getClientOriginalExtension();
-
-                $path = $galleryImage->storeAs('assets/gallery_images', $uniqueFileName, 'public'); // Adjust the storage path as needed
-
-                // Store data in the gallery table
-                $gallery = Gallery::create([
-                    'property_id' => $property->id, // Assuming there is a 'property_id' column in the gallery table
-                    'image_path' => $uniqueFileName, // Assuming there is an 'image_name' column in the gallery table
-                ]);
-
-                $galleryImages[] = $gallery;
+            if ($validator->fails()) {
+                $errors = $validator->errors()->toArray();
+                return redirect()->route('property.create')->withErrors($errors)->withInput();
             }
-        }
 
-        return redirect()->route('property.list')->with('success', 'Property added successfully.');
+            // Begin transaction
+            DB::beginTransaction();
+
+            // Featured Image
+            $uniqueDFeaturedFileName = null;
+            if ($request->hasFile('featured')) {
+                $featuredImage = $request->file('featured');
+                $uniqueFileName = Str::uuid() . '.' . $featuredImage->getClientOriginalExtension();
+                $featuredImage->storeAs('assets/featured_images', $uniqueFileName, 'public');
+                $uniqueDFeaturedFileName = $uniqueFileName;
+            }
+
+            // Create Property
+            $property = Property::create([
+                'title' => $request->title,
+                'price' => $request->price,
+                'floor_area' => $request->floor_area,
+                'bedroom' => $request->bedroom,
+                'bathroom' => $request->bathroom,
+                'city' => $request->city,
+                'address' => $request->address,
+                'description' => $request->description,
+                'nearby_place' => $request->nearby_place,
+                'featured_image' => $uniqueDFeaturedFileName,
+                'created_by' => auth()->user()->id,
+            ]);
+
+            // Gallery Images
+            if ($request->hasFile('gallery')) {
+                foreach ($request->file('gallery') as $galleryImage) {
+                    $uniqueFileName = Str::uuid() . '.' . $galleryImage->getClientOriginalExtension();
+                    $galleryImage->storeAs('assets/gallery_images', $uniqueFileName, 'public');
+
+                    // Store data in the gallery table
+                    $gallery = new Gallery([
+                        'property_id' => $property->id,
+                        'image_path' => $uniqueFileName,
+                    ]);
+
+                    $gallery->save();
+                }
+            }
+
+            // Commit the transaction
+            DB::commit();
+
+            return redirect()->route('property.index')->with('success', 'Property added successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of an error
+            DB::rollback();
+            return redirect()->route('property.create')->withErrors(['error' => 'An error occurred. Please try again.'])->withInput();
+        }
     }
 
-
     public function edit($id)
-    { //dd($id);
+    {
         $property = Property::findOrFail($id);
-
         return view('admin.property.update', compact('property'));
     }
 
     public function update(Request $request, $id)
     {
-        // Validate the request data
-        $validator = PropertyValidators::validate('updateProperty', $request->all());
+        try {
+            // Validation
+            $validator = PropertyValidators::validate('updateProperty', $request->all());
 
-        if ($validator->fails()) {
-            $errors = $validator->errors()->toArray();
-            return redirect()->route('property.edit', ['id' => $id])->withErrors($errors)->withInput();
-        }
-
-        // Find the property by ID
-        $property = Property::findOrFail($id);
-
-        // Update the property data
-        $property->update([
-            'title' => $request->title,
-            'price' => $request->price,
-            'floor_area' => $request->floor_area,
-            'bedroom' => $request->bedroom,
-            'bathroom' => $request->bathroom,
-            'city' => $request->city,
-            'address' => $request->address,
-            'description' => $request->description,
-            'nearby_place' => $request->nearby_place,
-        ]);
-
-        // Update the featured image if a new one is provided
-        if ($request->hasFile('featured')) {
-            $featuredImage = $request->file('featured');
-            $uniqueFileName = Str::uuid() . '.' . $featuredImage->getClientOriginalExtension();
-            $featuredImage->storeAs('assets/featured_images', $uniqueFileName, 'public');
-            // Delete the previous featured image (if any)
-            if ($property->featured_image) {
-                Storage::disk('public')->delete('assets/featured_images/' . $property->featured_image);
+            if ($validator->fails()) {
+                $errors = $validator->errors()->toArray();
+                return redirect()->route('property.edit', ['id' => $id])->withErrors($errors)->withInput();
             }
-            $property->update(['featured_image' => $uniqueFileName]);
-        }
 
-        // Update or create gallery images if new ones are provided
-        if ($request->hasFile('gallery')) {
-            foreach ($request->file('gallery') as $galleryImage) {
-                $uniqueFileName = Str::uuid() . '.' . $galleryImage->getClientOriginalExtension();
-                $path = $galleryImage->storeAs('assets/gallery_images', $uniqueFileName, 'public');
-                // Create a new record in the gallery table
-                $gallery = Gallery::create([
-                    'property_id' => $property->id,
-                    'image_path' => $uniqueFileName,
-                ]);
+            // Begin transaction
+            DB::beginTransaction();
+
+            // Find the property by ID
+            $property = Property::findOrFail($id);
+
+            // Update the property data
+            $property->update([
+                'title' => $request->title,
+                'price' => $request->price,
+                'floor_area' => $request->floor_area,
+                'bedroom' => $request->bedroom,
+                'bathroom' => $request->bathroom,
+                'city' => $request->city,
+                'address' => $request->address,
+                'description' => $request->description,
+                'nearby_place' => $request->nearby_place,
+            ]);
+
+            // Update the featured image if a new one is provided
+            if ($request->hasFile('featured')) {
+                $featuredImage = $request->file('featured');
+                $uniqueFileName = Str::uuid() . '.' . $featuredImage->getClientOriginalExtension();
+                $featuredImage->storeAs('assets/featured_images', $uniqueFileName, 'public');
+                // Delete the previous featured image (if any)
+                if ($property->featured_image) {
+                    Storage::disk('public')->delete('assets/featured_images/' . $property->featured_image);
+                }
+                $property->update(['featured_image' => $uniqueFileName]);
             }
-        }
 
-        return redirect()->route('property.list')->with('success', 'Property updated successfully.');
+            // Update or create gallery images if new ones are provided
+            if ($request->hasFile('gallery')) {
+                foreach ($request->file('gallery') as $galleryImage) {
+                    $uniqueFileName = Str::uuid() . '.' . $galleryImage->getClientOriginalExtension();
+                    $galleryImage->storeAs('assets/gallery_images', $uniqueFileName, 'public');
+                    // Create a new record in the gallery table
+                    $gallery = new Gallery([
+                        'property_id' => $property->id,
+                        'image_path' => $uniqueFileName,
+                    ]);
+
+                    $gallery->save();
+                }
+            }
+
+            // Commit the transaction
+            DB::commit();
+
+            return redirect()->route('property.index')->with('success', 'Property updated successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of an error
+            DB::rollback();
+            return redirect()->route('property.edit', ['id' => $id])->withErrors(['error' => 'An error occurred. Please try again.'])->withInput();
+        }
     }
 
     public function destroy($id)
     {
-        $property = Property::findOrFail($id);
-        // Delete associated galleries
-        $property->galleries()->delete();
-        $property->delete();
+        try {
+            // Begin transaction
+            DB::beginTransaction();
 
-        return redirect()->route('property.list')->with('success', 'Property deleted successfully.');
+            $property = Property::findOrFail($id);
+
+            // Delete associated galleries
+            $property->galleries()->delete();
+            $property->delete();
+
+            // Commit the transaction
+            DB::commit();
+
+            return redirect()->route('property.index')->with('success', 'Property deleted successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of an error
+            DB::rollback();
+            return redirect()->route('property.index')->withErrors(['error' => 'An error occurred. Please try again.']);
+        }
     }
 
-    public function properties_list(Request $request)
+    public function propertiesList(Request $request)
     {
         $query = Property::query();
 
@@ -184,24 +219,17 @@ class PropertiesController extends Controller
             $query->where('title', 'like', '%' . $request->input('property_name') . '%');
         }
 
-
-
         if ($request->filled('city')) {
             $query->where('city', $request->input('city'));
         }
-
-
 
         if ($request->filled('bedroom')) {
             $query->where('bedroom', $request->input('bedroom'));
         }
 
-
-
         if ($request->filled('max_price')) {
             $query->where('price', '<=', $request->input('max_price'));
         }
-
 
         // Paginate the results
         $properties = $query->paginate(10); // You can adjust the number of items per page as needed
