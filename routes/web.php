@@ -43,7 +43,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
 //for properties list page
-Route::get('properties', [PropertiesController::class, 'properties_list'])->name('property_list');
+Route::get('properties', [PropertiesController::class, 'propertiesList'])->name('property_list');
 
 //for property info page
 Route::get('/property/{id}/info', [PropertiesController::class, 'property'])->name('property.info');
