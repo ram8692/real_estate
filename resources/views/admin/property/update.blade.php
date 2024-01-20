@@ -96,7 +96,7 @@
                                             <!-- textarea -->
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <textarea class="form-control" rows="3" name="address" placeholder="Enter Address">{{ old('address', $property->address) }}</textarea>
+                                                <textarea class="form-control" rows="3" name="address" placeholder="Enter Address" required>{{ old('address', $property->address) }}</textarea>
                                             </div>
                                         </div>
 
@@ -104,7 +104,7 @@
                                             <!-- textarea -->
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                <textarea class="form-control" rows="3" name="description" placeholder="Enter Description">{{ old('description', $property->description) }}</textarea>
+                                                <textarea class="form-control" rows="3" name="description" placeholder="Enter Description" required>{{ old('description', $property->description) }}</textarea>
                                             </div>
                                         </div>
 

@@ -7,13 +7,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Validation</h1>
+
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{route('admin.index')}}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('property.list')}}">Property</a></li>
-                            <li class="breadcrumb-item active">Validation</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('property.list') }}">Property</a></li>
+                            <li class="breadcrumb-item active">Add Property</li>
                         </ol>
                     </div>
                 </div>
@@ -29,8 +29,18 @@
                         <!-- jquery validation -->
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Quick Example <small>jQuery Validation</small></h3>
+                                <h3 class="card-title">Add Property</h3>
+                               
                             </div>
+                            @if ($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                             <!-- /.card-header -->
                             <!-- form start -->
                             <form id="quickForm" method="POST" action="{{ route('property.store') }}"
@@ -92,7 +102,7 @@
                                             <!-- textarea -->
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <textarea class="form-control" rows="3" name="address" value="{{ old('address') }}" placeholder="Enter Address"></textarea>
+                                                <textarea class="form-control" rows="3" name="address"  placeholder="Enter Address" required>{{ old('address') }}</textarea>
                                             </div>
                                         </div>
 
@@ -100,8 +110,8 @@
                                             <!-- textarea -->
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                <textarea class="form-control" rows="3" name="description" value="{{ old('description') }}"
-                                                    placeholder="Enter Description"></textarea>
+                                                <textarea class="form-control" rows="3" name="description"
+                                                    placeholder="Enter Description" required>{{ old('description') }}</textarea>
                                             </div>
                                         </div>
 
@@ -109,7 +119,7 @@
                                             <div class="form-group">
                                                 <label>Upload Featured Images</label>
                                                 <input type="file" class="form-control-file" name="featured"
-                                                    accept="image/*">
+                                                    accept="image/*" required>
                                             </div>
                                         </div>
 
