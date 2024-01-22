@@ -40,7 +40,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Title</label>
+                                                <label>Title*</label>
                                                 <input type="text" class="form-control" name="title"
                                                     placeholder="Enter Title" value="{{ old('title', $property->title) }}"
                                                     required>
@@ -49,7 +49,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Price</label>
+                                                <label>Price*</label>
                                                 <input type="number" class="form-control" name="price"
                                                     value="{{ old('price', $property->price) }}" placeholder="Enter Price"
                                                     required>
@@ -58,7 +58,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Floor Area</label>
+                                                <label>Floor Area*</label>
                                                 <input type="number" class="form-control" name="floor_area"
                                                     value="{{ old('floor_area', $property->floor_area) }}"
                                                     placeholder="Floor Area" required>
@@ -67,7 +67,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Bedroom</label>
+                                                <label>Bedroom*</label>
                                                 <input type="number" class="form-control" name="bedroom"
                                                     value="{{ old('bedroom', $property->bedroom) }}"
                                                     placeholder="Floor Area" required>
@@ -76,7 +76,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Bathroom</label>
+                                                <label>Bathroom*</label>
                                                 <input type="number" class="form-control" name="bathroom"
                                                     value="{{ old('bathroom', $property->bathroom) }}"
                                                     placeholder="Floor Area" required>
@@ -85,7 +85,7 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>City</label>
+                                                <label>City*</label>
                                                 <input type="text" class="form-control" name="city"
                                                     value="{{ old('city', $property->city) }}" placeholder="Enter Title"
                                                     required>
@@ -95,7 +95,7 @@
                                         <div class="col-md-6">
                                             <!-- textarea -->
                                             <div class="form-group">
-                                                <label>Address</label>
+                                                <label>Address*</label>
                                                 <textarea class="form-control" rows="3" name="address" placeholder="Enter Address" required>{{ old('address', $property->address) }}</textarea>
                                             </div>
                                         </div>
@@ -103,7 +103,7 @@
                                         <div class="col-md-6">
                                             <!-- textarea -->
                                             <div class="form-group">
-                                                <label>Description</label>
+                                                <label>Description*</label>
                                                 <textarea class="form-control" rows="3" name="description" placeholder="Enter Description" required>{{ old('description', $property->description) }}</textarea>
                                             </div>
                                         </div>

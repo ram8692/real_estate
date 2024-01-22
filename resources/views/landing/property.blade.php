@@ -15,9 +15,7 @@
                     <div class="col-md-12 col-lg-4">
                         <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{route('index')}}">Home</a>
-                                </li>
+                                
                                 <li class="breadcrumb-item">
                                     <a href="{{route('property_list')}}">Properties</a>
                                 </li>
@@ -128,26 +126,7 @@
                                     </p>
 
                                 </div>
-                                <div class="row section-t3">
-                                    <div class="col-sm-12">
-                                        <div class="title-box-d">
-                                            <h3 class="title-d">Amenities</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="amenities-list color-text-a">
-                                    <ul class="list-a no-margin">
-                                        <li>Balcony</li>
-                                        <li>Outdoor Kitchen</li>
-                                        <li>Cable Tv</li>
-                                        <li>Deck</li>
-                                        <li>Tennis Courts</li>
-                                        <li>Internet</li>
-                                        <li>Parking</li>
-                                        <li>Sun Room</li>
-                                        <li>Concrete Flooring</li>
-                                    </ul>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -168,42 +147,14 @@
                             <div class="col-md-6 col-lg-4">
                                 <div class="property-agent">
                                     <h4 class="title-agent">{{ $property->user->name }}</h4>
-                                    <p class="color-text-a">
-                                        Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit amet quam vehicula
-                                        elementum sed sit amet
-                                        dui. Quisque velit nisi,
-                                        pretium ut lacinia in, elementum id enim.
-                                    </p>
+                                   
                                     <ul class="list-unstyled">
                                         <li class="d-flex justify-content-between">
                                             <strong>Email:</strong>
                                             <span class="color-text-a">{{ $property->user->email }}</span>
                                         </li>
                                     </ul>
-                                    <div class="socials-a">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item">
-                                                <a href="#">
-                                                    <i class="bi bi-facebook" aria-hidden="true"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="#">
-                                                    <i class="bi bi-twitter" aria-hidden="true"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="#">
-                                                    <i class="bi bi-instagram" aria-hidden="true"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="#">
-                                                    <i class="bi bi-linkedin" aria-hidden="true"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+
                                 </div>
                             </div>
                             @if(auth()->check())

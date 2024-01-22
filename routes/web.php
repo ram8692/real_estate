@@ -30,6 +30,10 @@ use App\Http\Controllers\AuthController;
 //for landing page
 Route::get('', [HomeController::class, 'index'])->name('index');
 
+Route::get('/', function () {
+    return redirect('/properties');
+});
+
 Route::middleware('guest')->group(function () {
 
 //show form of login page

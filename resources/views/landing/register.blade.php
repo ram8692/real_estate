@@ -9,19 +9,13 @@
                     <div class="col-md-12 col-lg-8">
                         <div class="title-single-box">
                             <h1 class="title-single">Register</h1>
-                            <span class="color-text-a">Aut voluptas consequatur unde sed omnis ex placeat quis eos. Aut natus
-                                officia corrupti qui autem fugit consectetur quo. Et ipsum eveniet laboriosam voluptas
-                                beatae possimus qui ducimus. Et voluptatem deleniti. Voluptatum voluptatibus amet. Et esse
-                                sed omnis inventore hic culpa.</span>
+
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-4">
                         <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                   
-                                  <a href="{{route('index')}}">Home</a>
-                                </li>
+
                                 <li class="breadcrumb-item active" aria-current="page">
                                     Register
                                 </li>
@@ -58,14 +52,14 @@
                                             <div class="form-group">
                                                 <input type="text" name="name"
                                                     class="form-control form-control-lg form-control-a"
-                                                    placeholder="Your Name" required value="{{ old('name') }}">
+                                                    placeholder="Your Name*" required value="{{ old('name') }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <div class="form-group">
                                                 <input name="email" type="email"
                                                     class="form-control form-control-lg form-control-a"
-                                                    placeholder="Your Email" required value="{{ old('email') }}">
+                                                    placeholder="Your Email*" required value="{{ old('email') }}">
                                             </div>
                                         </div>
 
@@ -74,7 +68,7 @@
                                             <div class="form-group">
                                                 <input name="password" type="password"
                                                     class="form-control form-control-lg form-control-a"
-                                                    placeholder="Your Password" minlength="8" required>
+                                                    placeholder="Your Password*" minlength="8" required>
                                             </div>
                                         </div>
                                         <!-- Add a role dropdown -->
@@ -83,7 +77,7 @@
                                                 <select name="role_id" class="form-control form-control-lg form-control-a"
                                                     required>
                                                     <option value="2" {{ old('role_id') == 2 ? 'selected' : '' }}>
-                                                        Customer</option>
+                                                        Customer*</option>
                                                     <!-- Add other role options as needed -->
                                                 </select>
                                             </div>

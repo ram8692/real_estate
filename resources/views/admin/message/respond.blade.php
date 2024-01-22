@@ -52,7 +52,7 @@
                                         <div class="col-md-6">
                                             <!-- textarea -->
                                             <div class="form-group">
-                                                <label>Content</label>
+                                                <label>Content*</label>
                                                 <textarea class="form-control" rows="3" name="content" placeholder="Enter Content" required>{{ old('content') }}</textarea>
                                             </div>
                                         </div>

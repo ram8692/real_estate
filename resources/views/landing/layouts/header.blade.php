@@ -141,7 +141,7 @@
                 <span></span>
                 <span></span>
             </button>
-            <a class="navbar-brand text-brand" href="index.html">Estate<span class="color-b">Agency</span></a>
+
 
             <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
                 <ul class="navbar-nav">
@@ -180,11 +180,7 @@
 
                 </ul>
             </div>
-{{-- 
-            <button type="button" class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse"
-                data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01">
-                <i class="bi bi-search"></i>
-            </button> --}}
+
 
         </div>
     </nav><!-- End Header/Navbar -->

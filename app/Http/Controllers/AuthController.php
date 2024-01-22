@@ -112,7 +112,7 @@ class AuthController extends Controller
         // Log in the user
         Auth::login($user);
 
-        return redirect('/'); // Redirect to a dashboard or another route after registration
+        return redirect('/');
     }
 
     
@@ -144,10 +144,10 @@ class AuthController extends Controller
         if ($user->isAdmin()) {
             return redirect()->route('admin.index');
         } elseif ($user->isCustomer()) {
-            return redirect()->route('index');
+            return redirect()->route('property_list');
         }
 
         // Default redirect if the user role is not recognized
-        return redirect('/');
+        return redirect('/properties');
     }
 }
