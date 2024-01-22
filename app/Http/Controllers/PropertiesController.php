@@ -14,6 +14,18 @@ use App\Traits\FileTrait;
 class PropertiesController extends Controller
 {
     use FileTrait;
+
+
+    /**
+     * The index function retrieves properties based on filters provided in the request and displays
+     * them in a paginated view.
+     * 
+     * @param Request request The  parameter is an instance of the Request class, which
+     * represents an HTTP request. It contains information about the request, such as the request
+     * method, URL, headers, and input data.
+     * 
+     * @return a view called 'admin.property.index' and passing the 'properties' variable to the view.
+     */
     public function index(Request $request)
     {
         $query = Property::query();
@@ -41,17 +53,46 @@ class PropertiesController extends Controller
         return view('admin.property.index', compact('properties'));
     }
 
+    /**
+     * The show function retrieves a property with the given ID and returns a view with the property
+     * data.
+     * 
+     * @param id The "id" parameter is used to identify the specific property that needs to be shown.
+     * It is typically an integer value that corresponds to the unique identifier of the property in
+     * the database.
+     * 
+     * @return a view called 'admin.property.show' and passing the 'property' variable to the view.
+     */
     public function show($id)
     {
         $property = Property::findOrFail($id);
         return view('admin.property.show', compact('property'));
     }
 
+    /**
+     * The create function returns a view for adding a new property in the admin panel.
+     * 
+     * @return a view called 'admin.property.add'.
+     */
     public function create()
     {
         return view('admin.property.add');
     }
 
+    /**
+     * The above function is used to store a new property in the database, including its featured image
+     * and gallery images, with validation and error handling.
+     * 
+     * @param Request request The  parameter is an instance of the Request class, which
+     * contains all the data that was sent with the HTTP request. It is used to retrieve input data,
+     * files, headers, and other information from the request. In this code, it is used to retrieve
+     * form data and uploaded files.
+     * 
+     * @return a redirect response. If the validation fails, it redirects back to the property create
+     * page with the validation errors and the input data. If the property is successfully created, it
+     * redirects to the property list page with a success message. If an exception occurs, it redirects
+     * back to the property create page with an error message.
+     */
     public function store(Request $request)
     {
         try {
@@ -117,12 +158,37 @@ class PropertiesController extends Controller
         }
     }
 
+    /**
+     * The edit function retrieves a property by its ID and returns a view for updating the property.
+     * 
+     * @param id The  parameter is the unique identifier of the property that needs to be edited. It
+     * is used to retrieve the specific property from the database using the `findOrFail` method.
+     * 
+     * @return a view called 'admin.property.update' and passing the 'property' variable to the view.
+     */
     public function edit($id)
     {
         $property = Property::findOrFail($id);
         return view('admin.property.update', compact('property'));
     }
 
+
+    /**
+     * The function updates a property's data, including its title, price, floor area, bedroom,
+     * bathroom, city, address, description, and nearby places, as well as its featured image and
+     * gallery images, and returns a success message or an error message if an exception occurs.
+     * 
+     * @param Request request The  parameter is an instance of the Request class, which
+     * contains all the data sent with the HTTP request. It is used to retrieve the form data submitted
+     * by the user.
+     * @param id The  parameter is the ID of the property that needs to be updated. It is used to
+     * find the property in the database and update its data.
+     * 
+     * @return a redirect response. If the validation fails, it redirects back to the property edit
+     * page with the validation errors and the input data. If the update is successful, it redirects to
+     * the property list page with a success message. If an error occurs, it redirects back to the
+     * property edit page with an error message.
+     */
     public function update(Request $request, $id)
     {
         try {
@@ -191,6 +257,17 @@ class PropertiesController extends Controller
         }
     }
 
+    /**
+     * The above function is used to delete a property and its associated galleries, messages, and
+     * files, while also handling any errors that may occur.
+     * 
+     * @param id The id parameter is the unique identifier of the property that needs to be deleted. It
+     * is used to find the property record in the database and delete it.
+     * 
+     * @return a redirect response to the "property.list" route with a success message if the property
+     * is deleted successfully. If an exception occurs, it returns a redirect response to the
+     * "property.list" route with an error message.
+     */
     public function destroy($id)
     {
         try {
@@ -238,6 +315,17 @@ class PropertiesController extends Controller
         }
     }
 
+    /**
+     * The function retrieves a list of properties based on the provided filters and returns them to
+     * the view along with the input data.
+     * 
+     * @param Request request The  parameter is an instance of the Request class, which
+     * represents an HTTP request. It contains all the data and information about the current request,
+     * such as the request method, URL, headers, and input data.
+     * 
+     * @return a view called 'landing.property_list' with the variables 'properties' and 'request'
+     * passed to it.
+     */
     public function propertiesList(Request $request)
     {
         $query = Property::query();
@@ -266,6 +354,16 @@ class PropertiesController extends Controller
         return view('landing.property_list', compact('properties'))->with($request->all());
     }
 
+    /**
+     * The function retrieves a property with its galleries, messages, and user, and passes it to the
+     * view.
+     * 
+     * @param id The "id" parameter is the unique identifier of the property that you want to retrieve.
+     * It is used to find the property in the database and fetch its associated galleries, messages,
+     * and user.
+     * 
+     * @return a view called 'landing.property' and passing the 'property' variable to the view.
+     */
     public function property($id)
     {
         // Retrieve the property with its galleries and messages

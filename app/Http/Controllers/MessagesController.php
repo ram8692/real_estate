@@ -9,11 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
 {
+
     /**
-     * Display a listing of messages for a specific property.
-     *
-     * @param  int  $property_id
-     * @return \Illuminate\View\View
+     * The index function retrieves all messages and their replies for a specific property and returns
+     * them to the admin message index view.
+     * 
+     * @param property_id The parameter `` is used to filter the messages based on a
+     * specific property. It is passed to the `index` function as an argument. The function retrieves
+     * all messages and their replies where the `property_id` matches the provided value. The
+     * `with('replies')` method eager
+     * 
+     * @return a view called 'admin.message.index' and passing the variable 'messages' to the view.
      */
     public function index($property_id)
     {
@@ -23,11 +29,19 @@ class MessagesController extends Controller
         return view('admin.message.index', compact('messages'));
     }
 
+    
     /**
-     * Store a newly created message in the storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * The function sends a message with user input data and redirects to the property info page with
+     * success or error messages.
+     * 
+     * @param Request request The  parameter is an instance of the Request class, which
+     * represents an HTTP request. It contains information about the request such as the request
+     * method, URL, headers, and request data.
+     * 
+     * @return a redirect response. If the validation fails, it redirects to the 'property.info' route
+     * with the property_id as a parameter, along with the validation errors and the user's input. If
+     * the validation passes, it creates a new Message record in the database and redirects to the
+     * 'property.info' route with the property_id as a parameter, along with a success message.
      */
     public function send(Request $request)
     {
@@ -51,11 +65,16 @@ class MessagesController extends Controller
         return redirect()->route('property.info', ['id' => $property_id])->with('success', 'Message sent successfully.');
     }
 
+    
     /**
-     * Show the form for responding to a message.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
+     * The function "respond" retrieves a message by its ID and returns a view for responding to the
+     * message.
+     * 
+     * @param id The parameter "id" is used to identify the specific message that the function is
+     * responding to. It is used to retrieve the message from the database using the "findOrFail"
+     * method of the Message model.
+     * 
+     * @return a view called 'admin.message.respond' and passing the variable 'message' to the view.
      */
     public function respond($id)
     {  
@@ -64,12 +83,19 @@ class MessagesController extends Controller
         return view('admin.message.respond', compact('message'));
     }
 
+    
     /**
-     * Store a newly created reply in the storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $parentId
-     * @return \Illuminate\Http\RedirectResponse
+     * The function takes a request and a parent ID, validates the request data, finds the parent
+     * message, creates a new reply, associates the reply with the parent message, and redirects to the
+     * messages index page with a success message.
+     * 
+     * @param Request request The  parameter is an instance of the Request class, which
+     * represents an HTTP request. It contains information about the request such as the request
+     * method, headers, and input data.
+     * @param parentId The parentId parameter is the ID of the parent message to which the reply is
+     * being made.
+     * 
+     * @return a redirect response.
      */
     public function reply(Request $request, $parentId)
     {

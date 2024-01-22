@@ -10,11 +10,17 @@ class GalleryController extends Controller
 {
     use FileTrait;
 
+    
     /**
-     * Display a listing of galleries for a specific property.
-     *
-     * @param  int  $property_id
-     * @return \Illuminate\View\View
+     * The index function retrieves galleries for a specific property and displays them with
+     * pagination.
+     * 
+     * @param property_id The property_id parameter is used to filter the galleries based on a specific
+     * property. It is passed as an argument to the index function. The function retrieves all the
+     * galleries that have a matching property_id value using the where method of the Gallery model.
+     * The galleries are then paginated with 10 galleries per
+     * 
+     * @return a view called 'admin.gallery.index' and passing the 'galleries' variable to the view.
      */
     public function index($property_id)
     {
@@ -24,11 +30,14 @@ class GalleryController extends Controller
         return view('admin.gallery.index', compact('galleries'));
     }
 
+    
     /**
-     * Remove the specified gallery from storage.
-     *
-     * @param  int  $gallery_id
-     * @return \Illuminate\Http\RedirectResponse
+     * The function destroys a gallery by its ID, deletes the associated image file, and redirects back
+     * with a success message.
+     * 
+     * @param gallery_id The parameter `` is the ID of the gallery that needs to be deleted.
+     * 
+     * @return a redirect back to the previous page with a success message.
      */
     public function destroy($gallery_id)
     {
