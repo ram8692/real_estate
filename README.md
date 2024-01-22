@@ -46,13 +46,22 @@ Laravel 8
 
 Update the .env file with your specific configuration settings, such as database credentials and application settings.
 
-## Code of Conduct
+## Usage
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Access the application in your web browser at http://localhost:8000.
 
-## Security Vulnerabilities
+Use the provided authentication routes to register and log in.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Explore the different features based on your user role.
+
+## Folder Structure
+
+app: Contains the application code.
+database: Contains migrations and seeders.
+public: Contains the public assets (images, CSS, JavaScript).
+resources: Contains views, lang files, and assets.
+routes: Contains route definitions.
+tests: Contains test cases.
 
 ## License
 
