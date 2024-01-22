@@ -145,11 +145,6 @@
 
             <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
                 <ul class="navbar-nav">
-
-                    <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Home</a>
-                    </li>
-
                     <li class="nav-item">
                         <a class="nav-link " href="{{ route('property_list') }}">Property</a>
                     </li>
