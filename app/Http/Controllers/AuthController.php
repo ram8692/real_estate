@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Validators\AuthValidators;
 use Illuminate\Support\Str;
+use App\Events\UserLoggedIn;
 
 class AuthController extends Controller
 {
@@ -50,6 +51,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+
+        // Dispatch UserLoggedIn event
+       event(new UserLoggedIn($user));
+
+
+
             // Redirect based on user role
             return $this->redirectBasedOnRole($user);
         }
