@@ -76,6 +76,7 @@ class PropertiesController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Property::class);
         return view('admin.property.add');
     }
 

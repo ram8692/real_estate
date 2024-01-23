@@ -85,7 +85,7 @@ Route::middleware([CheckUserRole::class . ':1,3'])->prefix('admin_panel')->group
     Route::get('property/list', [PropertiesController::class, 'index'])->name('property.list');
 
     // Show form to create a new property
-    //Route::get('property/create', [PropertiesController::class, 'create'])->name('property.create');
+    Route::get('property/create', [PropertiesController::class, 'create'])->name('property.create');
 
     // Store a new property in the database
     Route::post('property/save', [PropertiesController::class, 'store'])->name('property.store');
@@ -113,6 +113,6 @@ Route::middleware(['role:2'])->group(function () {
 
 Route::middleware(['role:3'])->group(function () {
  // Show form to create a new property
- Route::get('property/create', [PropertiesController::class, 'create'])->name('property.create');
+ 
 
 });
