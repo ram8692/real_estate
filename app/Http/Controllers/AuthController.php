@@ -141,7 +141,7 @@ class AuthController extends Controller
      */
     private function redirectBasedOnRole(User $user)
     {
-        if ($user->isAdmin()) {
+        if ($user->isAdmin() || $user->isManager()) {
             return redirect()->route('admin.index');
         } elseif ($user->isCustomer()) {
             return redirect()->route('property_list');

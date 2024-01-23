@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->role_id === 2;
     }
+
+    public function isManager()
+    {
+        return $this->role_id === 3;
+    }
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\CheckUserRole;
 
 
 /*
@@ -60,7 +61,7 @@ Route::get('/property/{id}/info', [PropertiesController::class, 'property'])->na
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //ROUTES FOR ADMIN
-Route::middleware(['role:1'])->prefix('admin_panel')->group(function () {
+Route::middleware([CheckUserRole::class . ':1,3'])->prefix('admin_panel')->group(function () {
 
     // List galleries for a specific property
     Route::get('/galleries/{property_id}', [GalleryController::class, 'index'])->name('galleries.index');
@@ -84,7 +85,7 @@ Route::middleware(['role:1'])->prefix('admin_panel')->group(function () {
     Route::get('property/list', [PropertiesController::class, 'index'])->name('property.list');
 
     // Show form to create a new property
-    Route::get('property/create', [PropertiesController::class, 'create'])->name('property.create');
+    //Route::get('property/create', [PropertiesController::class, 'create'])->name('property.create');
 
     // Store a new property in the database
     Route::post('property/save', [PropertiesController::class, 'store'])->name('property.store');
@@ -108,4 +109,10 @@ Route::middleware(['role:2'])->group(function () {
 
     //for Sending Messages
     Route::post('message/send', [MessagesController::class, 'send'])->name('message.send');
+});
+
+Route::middleware(['role:3'])->group(function () {
+ // Show form to create a new property
+ Route::get('property/create', [PropertiesController::class, 'create'])->name('property.create');
+
 });

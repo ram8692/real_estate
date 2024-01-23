@@ -15,9 +15,11 @@ class CheckUserRole
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $roleId)
+    public function handle(Request $request, Closure $next,...$roles)
     {
-        if (Auth::check() && Auth::user()->role_id == $roleId) {
+        $userRoles = Auth::check() ? [Auth::user()->role_id] : [];
+
+        if (!empty($roles) && count(array_intersect($userRoles, $roles)) > 0) {
             return $next($request);
         }
         abort(403, 'Unauthorized');
