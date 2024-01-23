@@ -15,8 +15,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        'App\Models\Model' => 'App\Policies\ModelPolicy',
-        Property::class => PropertyPolicy::class,
+      //  'App\Models\Model' => 'App\Policies\ModelPolicy',
+       // Property::class => PropertyPolicy::class,
     ];
 
     /**
@@ -28,6 +28,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('create-property', function ($user) {
+            return $user->isManager();
+        });
     }
 }

@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Traits\FileTrait;
+use Illuminate\Support\Facades\Gate;
+
 
 class PropertiesController extends Controller
 {
@@ -76,7 +78,11 @@ class PropertiesController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Property::class);
+       // $this->authorize('create', Property::class);
+       if (Gate::denies('create-property')) {
+        abort(403, 'Unauthorized');
+    }
+
         return view('admin.property.add');
     }
 
